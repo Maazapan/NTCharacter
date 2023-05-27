@@ -1,0 +1,4 @@
+name: NTCharacter
+version: '${project.version}'
+main: com.github.maazapan.ntcharacter.NTCharacter
+api-version: 1.16
