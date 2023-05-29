@@ -62,10 +62,14 @@ public class SelectVillageGUI extends InventoryCreator {
 
                     for (String s : config.getStringList("messages.dialogues.second")) {
                         player.sendMessage(KatsuUtils.coloredHex(s
-                                .replaceAll("%village%", character.getVillages().name())
+                                .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))
                                 .replaceAll("%nick%", character.getNick())));
                     }
 
+                    String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.select-village")
+                            .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))).split(";");
+
+                    player.sendTitle(title[0], title[1], 10, 30, 20);
                     player.closeInventory();
 
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {

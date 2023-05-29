@@ -3,6 +3,7 @@ import com.github.maazapan.ntcharacter.character.listener.CharacterListener;
 import com.github.maazapan.ntcharacter.character.manager.CharacterManager;
 import com.github.maazapan.ntcharacter.commands.CharacterCommand;
 import com.github.maazapan.ntcharacter.listener.PlayerListener;
+import com.github.maazapan.ntcharacter.manager.extension.CharacterExtension;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class NTCharacter extends JavaPlugin {
@@ -18,6 +19,7 @@ public final class NTCharacter extends JavaPlugin {
 
         this.registerListener();
         this.registerCommands();
+        this.registerPapi();
     }
 
     @Override
@@ -34,8 +36,14 @@ public final class NTCharacter extends JavaPlugin {
     private void registerListener(){
         getServer().getPluginManager().registerEvents(new CharacterListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+    }
 
-
+    private void registerPapi(){
+        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null){
+            System.out.println("NTCharacter: PlaceholderAPI found, registering placeholders");
+            CharacterExtension characterExtension = new CharacterExtension(this);
+            characterExtension.register();
+        }
     }
 
     public String getPrefix(){

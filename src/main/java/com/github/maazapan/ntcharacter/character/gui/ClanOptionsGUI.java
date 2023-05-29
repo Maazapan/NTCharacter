@@ -58,16 +58,22 @@ public class ClanOptionsGUI extends InventoryCreator {
                         List<String> availableClans = Arrays.stream(character.getVillages().getSurnames())
                                 .collect(Collectors.toList());
                         availableClans.addAll(Arrays.asList(Villages.GLOBAL.getSurnames()));
-                        String clan = availableClans.get(new Random().nextInt(availableClans.size()));
+
+                        String clan = availableClans.get((int) (Math.random() * availableClans.size()));
 
                         character.setClan(clan);
                         this.setTerminated(true);
 
                         for (String s : config.getStringList("messages.dialogues.third")) {
                             player.sendMessage(KatsuUtils.coloredHex(s
-                                    .replaceAll("%clan%", clan)
-                                    .replaceAll("%village%", character.getVillages().name())));
+                                    .replaceAll("%clan%", KatsuUtils.formatClan(clan))
+                                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))));
                         }
+
+                        String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.select-clan")
+                                .replaceAll("%clan%", KatsuUtils.formatClan(clan))).split(";");
+
+                        player.sendTitle(title[0], title[1], 10, 30, 20);
                         player.closeInventory();
 
                         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -84,7 +90,6 @@ public class ClanOptionsGUI extends InventoryCreator {
                             player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.blocked-select-clan")));
                             return;
                         }
-
                         this.setTerminated(true);
                         new SelectClanGUI(player, plugin, character).init().open();
                     }
@@ -96,10 +101,14 @@ public class ClanOptionsGUI extends InventoryCreator {
 
                         for (String s : config.getStringList("messages.dialogues.third")) {
                             player.sendMessage(KatsuUtils.coloredHex(s
-                                    .replaceAll("%clan%", "Taijutsu")
-                                    .replaceAll("%village%", character.getVillages().name())));
+                                    .replaceAll("%clan%", "&aTaijutsu")
+                                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))));
                         }
 
+                        String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.select-clan")
+                                .replaceAll("%clan%", "Taijutsu")).split(";");
+
+                        player.sendTitle(title[0], title[1], 10, 30, 20);
                         player.closeInventory();
 
                         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {

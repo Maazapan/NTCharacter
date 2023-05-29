@@ -1,5 +1,7 @@
 package com.github.maazapan.ntcharacter.utils;
 
+import com.github.maazapan.ntcharacter.character.sex.CharacterSex;
+import com.github.maazapan.ntcharacter.character.villages.Villages;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
@@ -10,6 +12,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +46,73 @@ public class KatsuUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String formatVillage(String villages) {
+        Map<String, String> villagesMap = new HashMap<>() {
+            {
+                put("AMEGAKURE", "&d&lAmegakure");
+                put("KONOHAGAKURE", "&a&lKonohagakure");
+                put("SUNAGAKURE", "&6&lSunagakure");
+                put("IWAGAKURE", "#A24700&lIwagakure");
+                put("KUMOGAKURE", "&e&lKumogakure");
+                put("KIRIGAKURE", "&b&lKirigakure");
+            }
+        };
+
+        if (!villagesMap.containsKey(villages)) {
+            return "&7" + villages.substring(0, 1).toUpperCase() + villages.substring(1).toLowerCase();
+        }
+        return villagesMap.get(villages);
+    }
+
+    public static String formatVillage(Villages villages) {
+        return formatVillage(villages.toString());
+    }
+
+    public static String formatSex(CharacterSex characterSex) {
+
+        switch (characterSex) {
+            case MALE:
+                return "&b&lHombre";
+            case FEMALE:
+                return "&d&lMujer";
+            case OTHER:
+                return "&7&lOtro";
+        }
+        return "&7&lOtro";
+    }
+
+    public static String formatClan(String clan) {
+        clan = clan.toUpperCase();
+        Map<String, String> clanMap = new HashMap<>() {
+            {
+                put("HYUGA", "&f&lHyuga");
+                put("UCHIHA", "&c&lUchiha");
+                put("NARA", "&8&lNara");
+
+                put("SABAKU", "&6&lSabaku");
+                put("SHIROGANE", "&d&lShirogane");
+                put("SHAKU", "#FEBC17&lShaku");
+
+                put("BEIFON", "&8&lBeifon");
+                put("KAZAN", "&6&lKazan");
+                put("BAKUHATSU", "&f&lBakuhatsu");
+                put("YUKI", "&f&lYuki");
+                put("HOZUKI", "&9&lHozuki");
+                put("HOSHIRAKI", "&b&lHoshiraki");
+                put("FUMA", "&d&lFuma");
+                put("TIFO", "&3&lTifo");
+                put("YOTSUKI", "&b&lYotsuki");
+                put("BURAKKUREI", "&5&lBurakkurei");
+                put("CHINOIKE", "&c&lChinoike");
+            }
+        };
+
+        if (!clanMap.containsKey(clan)) {
+            return "&7" + clan.substring(0, 1).toUpperCase() + clan.substring(1).toLowerCase();
+        }
+        return clanMap.get(clan);
     }
 
     public static String formatTime(long time) {

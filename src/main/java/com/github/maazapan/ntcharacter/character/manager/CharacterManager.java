@@ -83,9 +83,9 @@ public class CharacterManager {
 
         for (String s : config.getStringList("messages.dialogues.fourth")) {
             player.sendMessage(KatsuUtils.coloredHex(s
-                    .replaceAll("%clan%", character.getClan())
+                    .replaceAll("%clan%", KatsuUtils.formatClan(character.getClan()))
                     .replaceAll("%nick%", character.getNick())
-                    .replaceAll("%village%", character.getVillages().name())));
+                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))));
         }
 
         String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.terminated-editing")).split(";");

@@ -43,6 +43,8 @@ messages:
   titles:
     nick-name: "&e&lSeleciona un Nombre; &a&l✔ &fEscribelo en el chat"
     terminated-editing: "&e&lHaz Terminado!;&f&a&l✔ &fTu personaja esta listo!"
+    select-village: "&e&lAldea;&f&a&l✔ &fSe ha seleccionado &7%village%"
+    select-clan: "&e&lClan;&f&a&l✔ &fSe ha seleccionado &7%clan%"
 
 inventory:
   select-sex:

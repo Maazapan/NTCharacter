@@ -1,5 +1,8 @@
 package com.github.maazapan.ntcharacter.character.villages;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum Villages {
 
     AMEGAKURE("Fuma", "Tifo", "Tanaka"),
