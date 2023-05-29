@@ -1,0 +1,654 @@
+config:
+  max-nick-length: 16
+  nick-blacklist:
+    - "admin"
+    - "owner"
+    - "mod"
+
+messages:
+  prefix: " &8 ▸| &e&lNTCharacter &8» "
+  args-missing: "&cTe faltan algunos argumentos en el comando /ppj <create/reset/add>!"
+  already-have-character: "&cYa tienes un personaje creado!"
+  no-permission: "&cNo tienes permiso para usar este comando!"
+  nick-too-long: "&cEl nombre es demasiado largo!"
+  nick-blacklisted: "&cEste nombre esta en la lista negra!"
+  already-editing: "&cYa estas editando tu personaje!"
+  cancel-editing: "&cHas cancelado la edicion de tu personaje!"
+  terminated-editing: "&aHas terminado la edicion de tu personaje!"
+  player-not-found: "&cNo se ha encontrado al jugador!"
+  reset-successful: "&aHas reseteado el personaje de &e%player%&a!"
+  no-reset-points: "&cNo tienes puntos para resetear!"
+  player-doesnt-have-character: "&cEl jugador no tiene un personaje creado!"
+  args-missing-add: "&cTe faltan algunos argumentos en el comando &e/ntc add <player> <amount>"
+  select-successful: "&aAhora el jugador &e%player% &apuede elegir el clan!"
+  terminated-editing-2: "&fAhora eres &a%nick% &fde la aldea &7%village%&f del clan &7%clan%"
+  blocked-select-clan: "&cNo puedes elegir esta opcion, utiliza el aleatorio!"
+  nick-name:
+    - ''
+    - '                &e&lCREACION DE PERSONAJE'
+    - ' &8| &7El nombre que utilices sera el utilizado para tu personaje'
+    - ' &8| &7y tu aventura dentro del servidor.'
+    - ''
+    - ' &8▸| &fEscribe &c&lCANCELAR &fpara cancelar'
+    - ''
+
+  titles:
+    nick-name: "&e&lSeleciona un Nombre; &a&l✔ &fEscribelo en el chat"
+    terminated-editing: "&e&lHaz Terminado!;&f&a&l✔ &fTu personaja esta listo!"
+
+inventory:
+  select-sex:
+    title: " &9» &8Selecciona un Sexo"
+    size: 36
+
+    items:
+      '1':
+        id: PLAYER_HEAD
+        slot: 11
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTdmZTZlMjMxNmNhMzg0ZTBjODUyNjFiMTRmYzA2NmUyMzFkNjEyN2U1NDBkZmVkZGI4YjU0ZDkxMWI4MjgzMSJ9fX0="
+        display_name: "&aHombre"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Selecciona un sexo para tu personaje'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[SEX] MALE'
+      '2':
+        id: PLAYER_HEAD
+        slot: 13
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjZhYWM4YzFjMjkwYmU5ZDNiZDQ5NTQ3NmFjYTQyYzY4NjIzYjljYmVmZGQ2ZGRiZDYxNDQ4NTViOTczMWM2MyJ9fX0="
+        display_name: "&aMujer"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Selecciona un sexo para tu personaje'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[SEX] FEMALE'
+      '3':
+        id: PLAYER_HEAD
+        slot: 15
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmFkYzA0OGE3Y2U3OGY3ZGFkNzJhMDdkYTI3ZDg1YzA5MTY4ODFlNTUyMmVlZWQxZTNkYWYyMTdhMzhjMWEifX19"
+        display_name: "&aOtro"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Selecciona un sexo para tu personaje'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[SEX] OTHER'
+      '4':
+        id: PLAYER_HEAD
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ=="
+        slot: 31
+        display_name: "&aVolver al Menu"
+        actions:
+          - '[BACK]'
+
+  options-clan:
+    title: " &9» &8Selecciona una Opcion"
+    size: 36
+    items:
+      '1':
+        id: PLAYER_HEAD
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ=="
+        slot: 31
+        display_name: "&aVolver al Menu"
+        actions:
+          - '[BACK]'
+      '2':
+        id: NAME_TAG
+        display_name: "&aSelecionar un Clan"
+        slot: 11
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Selecciona un clan para tu personaje'
+          - '&7No podras cambiarlo de nuevo.'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[SELECT-CLAN]'
+      '3':
+        id: FIREWORK_STAR
+        display_name: "&aClan Aleatorio"
+        slot: 13
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Selecciona un clan aleatorio para tu personaje'
+          - '&7No podras cambiarlo de nuevo.'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[RANDOM-CLAN]'
+      '4':
+        id: STONE_SWORD
+        display_name: "&aTaijutsu"
+        slot: 15
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Selecciona un taijutsu para tu personaje'
+          - '&7No podras cambiarlo de nuevo.'
+          - ''
+          - '&e▸ Click para seleccionar'
+        item_flags:
+          - 'HIDE_ATTRIBUTES'
+        actions:
+          - '[TAIJUTSU]'
+
+  select-clan:
+    title: " &9» &8Selecciona un Clan"
+    size: 36
+
+    clan-items:
+      AMEGAKURE:
+         '1':
+           id: FEATHER
+           display_name: "&aClan Fuma"
+           lore:
+             - '&8Creacion Personaje'
+             - ''
+             - '&7Clan de la Aldea Oculta entre la Lluvia'
+             - ''
+             - '&e▸ Click para seleccionar'
+           actions:
+             - '[CLAN] FUMA'
+         '2':
+           id: BONE
+           display_name: "&aClan Tifo"
+           lore:
+             - '&8Creacion Personaje'
+             - ''
+             - '&7Clan de la Aldea Oculta entre la Lluvia'
+             - ''
+             - '&e▸ Click para seleccionar'
+           actions:
+             - '[CLAN] TIFO'
+         '3':
+           id: PAPER
+           display_name: "&aClan Tanaka"
+           lore:
+             - '&8Creacion Personaje'
+             - ''
+             - '&7Clan de la Aldea Oculta entre la Lluvia'
+             - ''
+             - '&e▸ Click para seleccionar'
+           actions:
+             - '[CLAN] TANAKA'
+         '4':
+           id: ORANGE_DYE
+           display_name: "&aClan Uzumaki"
+           lore:
+             - '&8Creacion Personaje'
+             - ''
+             - '&7Clan de global sin una aldea'
+             - ''
+             - '&e▸ Click para seleccionar'
+           actions:
+             - '[CLAN] UZUMAKI'
+         '5':
+           id: ENDER_EYE
+           display_name: "&aClan Sarutobi"
+           lore:
+             - '&8Creacion Personaje'
+             - ''
+             - '&7Clan de global sin una aldea'
+             - ''
+             - '&e▸ Click para seleccionar'
+           actions:
+             - '[CLAN] SARUTOBI'
+         '6':
+           id: FLINT
+           display_name: "&aClan Kaguya"
+           lore:
+             - '&8Creacion Personaje'
+             - ''
+             - '&7Clan de global sin una aldea'
+             - ''
+             - '&e▸ Click para seleccionar'
+           actions:
+             - '[CLAN] KAGUYA'
+
+      SUNAGAKURE:
+        '1':
+          id: GLOWSTONE_DUST
+          display_name: "&aClan Sabaku"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta de la Arena'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] SABAKU'
+        '2':
+          id: SPIDER_EYE
+          display_name: "&aClan Shaku"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta de la Arena'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] SHAKU'
+        '3':
+          id: LAPIS_LAZULI
+          display_name: "&aClan Shirogane"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta de la Arena'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] SHIROGANE'
+        '4':
+          id: ORANGE_DYE
+          display_name: "&aClan Uzumaki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] UZUMAKI'
+        '5':
+          id: ENDER_EYE
+          display_name: "&aClan Sarutobi"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] SARUTOBI'
+        '6':
+          id: FLINT
+          display_name: "&aClan Kaguya"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] KAGUYA'
+
+      IWAGAKURE:
+        '1':
+          id: BONE_MEAL
+          display_name: "&aClan Kazan"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Rocas'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] KAZAN'
+        '2':
+          id: WHEAT
+          display_name: "&aClan Beifong"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Rocas'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] BEIFONG'
+        '3':
+          id: SCUTE
+          display_name: "&aClan Bakuhatsu"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Rocas'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] BAKUHATSU'
+        '4':
+          id: ORANGE_DYE
+          display_name: "&aClan Uzumaki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] UZUMAKI'
+        '5':
+          id: ENDER_EYE
+          display_name: "&aClan Sarutobi"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] SARUTOBI'
+        '6':
+          id: FLINT
+          display_name: "&aClan Kaguya"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] KAGUYA'
+
+      KUMOGAKURE:
+        '1':
+          id: BLAZE_POWDER
+          display_name: "&aClan Chinoike"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Nubes'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] CHINOIKE'
+        '2':
+          id: GUNPOWDER
+          display_name: "&aClain Burakkurei"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Nubes'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] BURAKKUREI'
+        '3':
+          id: GLOW_INK_SAC
+          display_name: "&aClan Yotsuki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Nubes'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] YOTSUKI'
+        '4':
+          id: ORANGE_DYE
+          display_name: "&aClan Uzumaki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] UZUMAKI'
+        '5':
+          id: ENDER_EYE
+          display_name: "&aClan Sarutobi"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] SARUTOBI'
+        '6':
+          id: FLINT
+          display_name: "&aClan Kaguya"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] KAGUYA'
+
+      KIRIGAKURE:
+        '1':
+          id: QUARTZ
+          display_name: "&aClan Yuki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre la Niebla'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] YUKI'
+        '2':
+          id: PRISMARINE_CRYSTALS
+          display_name: "&aClan Hozuki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre la Niebla'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] HOZUKI'
+        '3':
+          id: SLIME_BALL
+          display_name: "&aClan Hoshiraki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre la Niebla'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] HOSEIRAKI'
+        '4':
+          id: ORANGE_DYE
+          display_name: "&aClan Uzumaki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] UZUMAKI'
+        '5':
+          id: ENDER_EYE
+          display_name: "&aClan Sarutobi"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] SARUTOBI'
+        '6':
+          id: FLINT
+          display_name: "&aClan Kaguya"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] KAGUYA'
+      KONOHAGAKURE:
+        '1':
+          id: PINK_DYE
+          display_name: "&aClan Hyuga"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Hojas'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] HYUGA'
+        '2':
+          id: RED_DYE
+          display_name: "&aClan Uchiha"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Hojas'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] UCHIHA'
+        '3':
+          id: LIGHT_GRAY_DYE
+          display_name: "&aClan Nara"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de la Aldea Oculta entre las Hojas'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] NARA'
+        '4':
+          id: ORANGE_DYE
+          display_name: "&aClan Uzumaki"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] UZUMAKI'
+        '5':
+          id: ENDER_EYE
+          display_name: "&aClan Sarutobi"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] SARUTOBI'
+        '6':
+          id: FLINT
+          display_name: "&aClan Kaguya"
+          lore:
+            - '&8Creacion Personaje'
+            - ''
+            - '&7Clan de global sin una aldea'
+            - ''
+            - '&e▸ Click para seleccionar'
+          actions:
+            - '[CLAN] KAGUYA'
+
+    items:
+      '1':
+        id: PLAYER_HEAD
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ=="
+        slot: 31
+        display_name: "&aVolver al Menu"
+        actions:
+          - '[BACK]'
+
+  select-village:
+    title: " &9» &8Selecciona una Aldea"
+    size: 36
+
+    items:
+      '1':
+        id: PLAYER_HEAD
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWE2Nzg3YmEzMjU2NGU3YzJmM2EwY2U2NDQ5OGVjYmIyM2I4OTg0NWU1YTY2YjVjZWM3NzM2ZjcyOWVkMzcifX19"
+        slot: 31
+        display_name: "&cCancelar"
+        actions:
+          - '[CLOSE]'
+
+      '2':
+        id: YELLOW_BANNER
+        slot: 10
+        display_name: "&aSunagakure"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Aldea Oculta de la Arena'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[VILLAGE] SUNAGAKURE'
+      '3':
+        id: LIME_BANNER
+        slot: 11
+        display_name: "&aKonohagakure"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Aldea Oculta entre las Hojas'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[VILLAGE] KONOHAGAKURE'
+
+      '4':
+        id: RED_BANNER
+        slot: 12
+        display_name: "&aIwagakure"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Aldea Oculta entre la Roca'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[VILLAGE] IWAGAKURE'
+
+      '5':
+        id: GRAY_BANNER
+        slot: 13
+        display_name: "&aAmegakure"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Aldea Oculta entre la Lluvia'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[VILLAGE] AMEGAKURE'
+
+      '6':
+        id: WHITE_BANNER
+        slot: 14
+        display_name: "&aKumogakure"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Aldea Oculta entre las Nubes'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[VILLAGE] KUMOGAKURE'
+
+      '7':
+        id: CYAN_BANNER
+        slot: 15
+        display_name: "&aKirigakure"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Aldea Oculta entre la Niebla'
+          - ''
+          - '&e▸ Click para seleccionar'
+        actions:
+          - '[VILLAGE] KIRIGAKURE'

@@ -2,3 +2,12 @@ name: NTCharacter
 version: '${project.version}'
 main: com.github.maazapan.ntcharacter.NTCharacter
 api-version: 1.16
+softdepend:
+  - PlaceholderAPI
+
+commands:
+  ntcharacter:
+    aliases:
+      - ntc
+      - ntchar
+      - ntch
