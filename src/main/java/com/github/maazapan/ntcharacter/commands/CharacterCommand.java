@@ -26,17 +26,12 @@ public class CharacterCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-        if (!(sender instanceof Player)) {
-            plugin.getLogger().warning("You must be a player to use this command!");
-            return true;
-        }
-
         CharacterManager characterManager = plugin.getCharacterManager();
         FileConfiguration config = plugin.getConfig();
-        Player player = (Player) sender;
+    //    Player player = (Player) sender;
 
         if (!(args.length > 0)) {
-            player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.args-missing")));
+            sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.args-missing")));
             return true;
         }
 
@@ -47,14 +42,14 @@ public class CharacterCommand implements CommandExecutor, TabCompleter {
              + /character reload
              */
             case "reload": {
-                if (!player.hasPermission("ntcharacter.reload")) {
-                    player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.no-permission")));
+                if (!sender.hasPermission("ntcharacter.reload")) {
+                    sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.no-permission")));
                     return true;
                 }
                 plugin.reloadConfig();
                 plugin.saveDefaultConfig();
 
-                player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + "&aPlugin recargado correctamente."));
+                sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + "&aPlugin recargado correctamente."));
             }
             break;
 
@@ -66,21 +61,27 @@ public class CharacterCommand implements CommandExecutor, TabCompleter {
                 if (args.length > 1) {
                     String targetName = args[1];
 
-                    if (!player.hasPermission("ntcharacter.reset")) {
-                        player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.no-permission")));
+                    if (!sender.hasPermission("ntcharacter.reset")) {
+                        sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.no-permission")));
                         return true;
                     }
 
                     if (Bukkit.getPlayer(targetName) == null) {
-                        player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.player-not-found")));
+                        sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.player-not-found")));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(targetName);
 
                     characterManager.startEditing(target);
-                    player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.reset-successful").replaceAll("%player%", target.getName())));
+                    sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.reset-successful").replaceAll("%player%", target.getName())));
                     return true;
                 }
+
+                if (!(sender instanceof Player)) {
+                    plugin.getLogger().warning("This command can only be executed by a player. or use /ntc reset <player>");
+                    return true;
+                }
+                Player player = (Player) sender;
 
                 if (characterManager.haveCharacter(player.getUniqueId())) {
                     Character character = characterManager.getCharacter(player.getUniqueId());
@@ -99,6 +100,13 @@ public class CharacterCommand implements CommandExecutor, TabCompleter {
              + /character create
              */
             case "create": {
+                if (!(sender instanceof Player)) {
+                    plugin.getLogger().warning("This command can only be executed by a player.");
+                    return true;
+                }
+
+                Player player = (Player) sender;
+
                 if (!player.hasPermission("ntcharacter.create")) {
                     player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.no-permission")));
                     return true;
@@ -113,7 +121,7 @@ public class CharacterCommand implements CommandExecutor, TabCompleter {
                     player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.already-have-character")));
                     return true;
                 }
-                characterManager.startEditing(player);
+                characterManager.startEditing((Player) sender);
             }
             break;
 
@@ -122,29 +130,30 @@ public class CharacterCommand implements CommandExecutor, TabCompleter {
                 + /character add <player> <amount>
              */
             case "add": {
-                if (!player.hasPermission("ntcharacter.add")) {
-                    player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.no-permission")));
+                if (!sender.hasPermission("ntcharacter.add")) {
+                    sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.no-permission")));
                     return true;
                 }
 
                 if (args.length < 2) {
-                    player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.args-missing-add")));
+                    sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.args-missing-add")));
                     return true;
                 }
 
                 if (Bukkit.getPlayer(args[1]) == null) {
-                    player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.player-not-found")));
+                    sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.sender-not-found")));
                     return true;
                 }
                 Player target = Bukkit.getPlayer(args[1]);
-                player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.select-successful").replaceAll("%target%", target.getName())));
+                sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.select-successful").replaceAll("%player%", target.getName())));
 
                 NBTEntity nbtEntity = new NBTEntity(target);
-                nbtEntity.getPersistentDataContainer().setString("select-clan", player.getName());
+                nbtEntity.getPersistentDataContainer().setString("select-clan", sender.getName());
             }
             break;
 
             default:
+                sender.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.args-missing")));
                 break;
         }
         return false;

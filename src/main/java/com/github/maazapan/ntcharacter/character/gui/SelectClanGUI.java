@@ -3,8 +3,10 @@ package com.github.maazapan.ntcharacter.character.gui;
 import com.github.maazapan.ntcharacter.NTCharacter;
 import com.github.maazapan.ntcharacter.character.Character;
 import com.github.maazapan.ntcharacter.manager.gui.InventoryCreator;
+import com.github.maazapan.ntcharacter.utils.KatsuUtils;
 import com.github.maazapan.ntcharacter.utils.item.ItemBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -30,12 +32,14 @@ public class SelectClanGUI extends InventoryCreator {
 
     @Override
     public void onClick(InventoryClickEvent event) {
+        FileConfiguration config = plugin.getConfig();
+
         ItemStack itemStack = event.getCurrentItem();
         NBTItem nbtItem = new NBTItem(itemStack);
 
         event.setCancelled(true);
 
-        if(nbtItem.hasTag("character-actions")) {
+        if (nbtItem.hasTag("character-actions")) {
             List<String> actions = nbtItem.getObject("character-actions", List.class);
 
             player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1);
@@ -47,12 +51,23 @@ public class SelectClanGUI extends InventoryCreator {
             }
 
             for (String action : actions) {
-                if(action.startsWith("[CLAN]")){
+                if(action.startsWith("[CLAN]")) {
                     String clan = action.split(" ")[1];
                     character.setClan(clan);
 
                     this.setTerminated(true);
-                    new SelectSexGUI(player, plugin, character).init().open();
+
+                    for (String s : config.getStringList("messages.dialogues.third")) {
+                        player.sendMessage(KatsuUtils.coloredHex(s
+                                .replaceAll("%clan%", clan)
+                                .replaceAll("%village%", character.getVillages().name())));
+                    }
+
+                    player.closeInventory();
+
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                        new SelectSexGUI(player, plugin, character).init().open();
+                    }, 40);
                 }
             }
         }

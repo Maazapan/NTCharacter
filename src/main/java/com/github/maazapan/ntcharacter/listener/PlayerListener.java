@@ -33,7 +33,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
 
         if(characterManager.isEditing(player.getUniqueId())){
-            characterManager.removeEditor(player.getUniqueId());
+            characterManager.cancelEditing(player);
         }
     }
 

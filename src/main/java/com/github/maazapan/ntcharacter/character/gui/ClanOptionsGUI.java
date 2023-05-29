@@ -7,6 +7,7 @@ import com.github.maazapan.ntcharacter.manager.gui.InventoryCreator;
 import com.github.maazapan.ntcharacter.utils.KatsuUtils;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -57,13 +58,21 @@ public class ClanOptionsGUI extends InventoryCreator {
                         List<String> availableClans = Arrays.stream(character.getVillages().getSurnames())
                                 .collect(Collectors.toList());
                         availableClans.addAll(Arrays.asList(Villages.GLOBAL.getSurnames()));
-
                         String clan = availableClans.get(new Random().nextInt(availableClans.size()));
 
                         character.setClan(clan);
                         this.setTerminated(true);
 
-                        new SelectSexGUI(player, plugin, character).init().open();
+                        for (String s : config.getStringList("messages.dialogues.third")) {
+                            player.sendMessage(KatsuUtils.coloredHex(s
+                                    .replaceAll("%clan%", clan)
+                                    .replaceAll("%village%", character.getVillages().name())));
+                        }
+                        player.closeInventory();
+
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                            new SelectSexGUI(player, plugin, character).init().open();
+                        }, 40);
                     }
                     break;
 
@@ -85,7 +94,17 @@ public class ClanOptionsGUI extends InventoryCreator {
                         character.setClan("Taijutsu");
                         this.setTerminated(true);
 
-                        new SelectSexGUI(player, plugin, character).init().open();
+                        for (String s : config.getStringList("messages.dialogues.third")) {
+                            player.sendMessage(KatsuUtils.coloredHex(s
+                                    .replaceAll("%clan%", "Taijutsu")
+                                    .replaceAll("%village%", character.getVillages().name())));
+                        }
+
+                        player.closeInventory();
+
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                            new SelectSexGUI(player, plugin, character).init().open();
+                        }, 40);
                     }
                     break;
                 }

@@ -53,6 +53,8 @@ public class SelectSexGUI extends InventoryCreator {
 
                 this.setTerminated(true);
                 character.setCharacterSex(CharacterSex.valueOf(sex));
+
+
                 characterManager.terminateEditing(player, character);
             }
         }

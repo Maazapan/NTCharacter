@@ -5,8 +5,11 @@ import com.github.maazapan.ntcharacter.character.Character;
 import com.github.maazapan.ntcharacter.character.manager.CharacterManager;
 import com.github.maazapan.ntcharacter.character.villages.Villages;
 import com.github.maazapan.ntcharacter.manager.gui.InventoryCreator;
+import com.github.maazapan.ntcharacter.utils.KatsuUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +33,8 @@ public class SelectVillageGUI extends InventoryCreator {
     @Override
     public void onClick(InventoryClickEvent event) {
         CharacterManager characterManager = plugin.getCharacterManager();
+        FileConfiguration config = plugin.getConfig();
+
         ItemStack itemStack = event.getCurrentItem();
         NBTItem nbtItem = new NBTItem(itemStack);
 
@@ -38,7 +43,7 @@ public class SelectVillageGUI extends InventoryCreator {
         if (nbtItem.hasTag("character-actions")) {
             List<String> actions = nbtItem.getObject("character-actions", List.class);
 
-            player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1,1);
+            player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1);
 
             if (actions.contains("[CLOSE]")) {
                 player.closeInventory();
@@ -54,7 +59,18 @@ public class SelectVillageGUI extends InventoryCreator {
                     character.setNick(nickName);
 
                     this.setTerminated(true);
-                    new ClanOptionsGUI(player, plugin, character).init().open();
+
+                    for (String s : config.getStringList("messages.dialogues.second")) {
+                        player.sendMessage(KatsuUtils.coloredHex(s
+                                .replaceAll("%village%", character.getVillages().name())
+                                .replaceAll("%nick%", character.getNick())));
+                    }
+
+                    player.closeInventory();
+
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                        new ClanOptionsGUI(player, plugin, character).init().open();
+                    }, 50);
                 }
             }
         }

@@ -80,11 +80,13 @@ public class CharacterManager {
         player.closeInventory();
 
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-        player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.terminated-editing")));
-        player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.terminated-editing-2")
-                .replaceAll("%clan%", character.getClan())
-                .replaceAll("%nick%", character.getNick())
-                .replaceAll("%village%", character.getVillages().name())));
+
+        for (String s : config.getStringList("messages.dialogues.fourth")) {
+            player.sendMessage(KatsuUtils.coloredHex(s
+                    .replaceAll("%clan%", character.getClan())
+                    .replaceAll("%nick%", character.getNick())
+                    .replaceAll("%village%", character.getVillages().name())));
+        }
 
         String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.terminated-editing")).split(";");
         player.sendTitle(title[0], title[1], 10, 30, 20);
@@ -122,15 +124,19 @@ public class CharacterManager {
             player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.nick-blacklisted")));
             return;
         }
-
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 1, 1);
+
+        for (String s : config.getStringList("messages.dialogues.first")) {
+            player.sendMessage(KatsuUtils.coloredHex(s.replaceAll("%nick%", message)));
+        }
+
         player.sendTitle(" ", " ");
 
         editors.put(player.getUniqueId(), message);
 
-        Bukkit.getScheduler().runTask(plugin, () -> {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             new SelectVillageGUI(player, plugin, message).init().open();
-        });
+        }, 50);
     }
 
     public void addEditor(UUID uuid, String nick) {
