@@ -19,9 +19,9 @@ import java.util.List;
 public class SelectClanGUI extends InventoryCreator {
 
     private final NTCharacter plugin;
-    private Player player;
+    private final Player player;
 
-    private Character character;
+    private final Character character;
 
     public SelectClanGUI(Player player, NTCharacter plugin, Character character) {
         super(player, plugin, "select-clan");
@@ -59,12 +59,12 @@ public class SelectClanGUI extends InventoryCreator {
 
                     for (String s : config.getStringList("messages.dialogues.third")) {
                         player.sendMessage(KatsuUtils.coloredHex(s
-                                .replaceAll("%clan%", KatsuUtils.formatClan(clan))
-                                .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))));
+                                .replaceAll("%clan%", KatsuUtils.formatClan(clan, plugin))
+                                .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name(), plugin))));
                     }
 
                     String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.select-clan")
-                            .replaceAll("%clan%", KatsuUtils.formatClan(clan))).split(";");
+                            .replaceAll("%clan%", KatsuUtils.formatClan(clan, plugin))).split(";");
 
                     player.sendTitle(title[0], title[1], 10, 30, 20);
                     player.closeInventory();

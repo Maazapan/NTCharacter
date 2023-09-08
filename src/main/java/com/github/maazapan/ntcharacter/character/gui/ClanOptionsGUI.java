@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ClanOptionsGUI extends InventoryCreator {
@@ -66,12 +65,12 @@ public class ClanOptionsGUI extends InventoryCreator {
 
                         for (String s : config.getStringList("messages.dialogues.third")) {
                             player.sendMessage(KatsuUtils.coloredHex(s
-                                    .replaceAll("%clan%", KatsuUtils.formatClan(clan))
-                                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))));
+                                    .replaceAll("%clan%", KatsuUtils.formatClan(clan, plugin))
+                                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name(), plugin))));
                         }
 
                         String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.select-clan")
-                                .replaceAll("%clan%", KatsuUtils.formatClan(clan))).split(";");
+                                .replaceAll("%clan%", KatsuUtils.formatClan(clan, plugin))).split(";");
 
                         player.sendTitle(title[0], title[1], 10, 30, 20);
                         player.closeInventory();
@@ -102,7 +101,7 @@ public class ClanOptionsGUI extends InventoryCreator {
                         for (String s : config.getStringList("messages.dialogues.third")) {
                             player.sendMessage(KatsuUtils.coloredHex(s
                                     .replaceAll("%clan%", "&aTaijutsu")
-                                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))));
+                                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name(), plugin))));
                         }
 
                         String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.select-clan")

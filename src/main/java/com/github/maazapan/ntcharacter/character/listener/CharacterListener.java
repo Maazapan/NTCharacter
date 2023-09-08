@@ -25,7 +25,7 @@ public class CharacterListener implements Listener {
             event.setCancelled(true);
 
             if (message.startsWith("cancel")  || message.startsWith("cancelar")) {
-                characterManager.cancelEditing(player);
+                characterManager.cancelEditing(player, false);
                 return;
             }
             characterManager.saveNickName(player, message);

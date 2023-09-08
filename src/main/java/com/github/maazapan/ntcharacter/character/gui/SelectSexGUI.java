@@ -5,7 +5,9 @@ import com.github.maazapan.ntcharacter.character.Character;
 import com.github.maazapan.ntcharacter.character.manager.CharacterManager;
 import com.github.maazapan.ntcharacter.character.sex.CharacterSex;
 import com.github.maazapan.ntcharacter.manager.gui.InventoryCreator;
+import com.github.maazapan.ntcharacter.utils.KatsuUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -53,7 +55,21 @@ public class SelectSexGUI extends InventoryCreator {
 
                 this.setTerminated(true);
                 character.setCharacterSex(CharacterSex.valueOf(sex));
-                characterManager.terminateEditing(player, character);
+
+                for (String s : config.getStringList("messages.dialogues.fourth")) {
+                    player.sendMessage(KatsuUtils.coloredHex(s
+                            .replaceAll("%sex%", KatsuUtils.formatSex(character.getCharacterSex()))));
+                }
+
+                String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.select-sex")
+                        .replaceAll("%sex%", KatsuUtils.formatSex(character.getCharacterSex()))).split(";");
+
+                player.sendTitle(title[0], title[1], 10, 30, 20);
+                player.closeInventory();
+
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                    new SelectAgeGUI(player, plugin, character).init().open();
+                }, 50);
             }
         }
     }

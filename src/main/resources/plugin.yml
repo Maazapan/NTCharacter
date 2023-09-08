@@ -4,6 +4,7 @@ main: com.github.maazapan.ntcharacter.NTCharacter
 api-version: 1.16
 softdepend:
   - PlaceholderAPI
+  - MultiverseCore
 
 commands:
   ntcharacter:

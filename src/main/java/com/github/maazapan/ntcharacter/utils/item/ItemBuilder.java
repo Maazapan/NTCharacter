@@ -8,7 +8,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -137,6 +136,21 @@ public class ItemBuilder {
             is.setItemMeta(im);
         } catch (ClassCastException expected) {
         }
+        return this;
+    }
+
+
+    public ItemBuilder replace(String from, String to){
+        ItemMeta im = is.getItemMeta();
+        im.setDisplayName(im.getDisplayName().replace(from, to));
+
+        if(im.getLore() != null){
+            List<String> lore = new ArrayList<>(im.getLore());
+            lore.replaceAll(s -> s.replace(from, to));
+
+            im.setLore(lore);
+        }
+        is.setItemMeta(im);
         return this;
     }
 

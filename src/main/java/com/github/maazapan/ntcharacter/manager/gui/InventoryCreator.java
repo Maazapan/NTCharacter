@@ -6,7 +6,6 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -36,7 +35,6 @@ public abstract class InventoryCreator implements InventoryHolder {
 
     protected InventoryCreator create() {
         FileConfiguration config = plugin.getConfig();
-
         try {
 
             if (config.isSet(path + ".inventory_type")) {

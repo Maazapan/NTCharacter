@@ -12,11 +12,13 @@ public class Character {
 
     private Villages villages;
     private String clan;
-    private int resetPoints;
+    private int age;
 
+    private int resetPoints;
     private CharacterSex characterSex;
 
     public Character(UUID uuid) {
+        this.age = 20;
         this.resetPoints = 1;
         this.uuid = uuid;
     }
@@ -49,10 +51,17 @@ public class Character {
         return nick;
     }
 
+    public int getAge() {
+        return age;
+    }
+
     public void setNick(String nick) {
         this.nick = nick;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public CharacterSex getCharacterSex() {
         return characterSex;

@@ -12,9 +12,11 @@ import org.jetbrains.annotations.Nullable;
 public class CharacterExtension extends PlaceholderExpansion {
 
     private final CharacterManager characterManager;
+    private final NTCharacter plugin;
 
     public CharacterExtension(NTCharacter plugin) {
         this.characterManager = plugin.getCharacterManager();
+        this.plugin = plugin;
     }
 
     @Override
@@ -38,11 +40,19 @@ public class CharacterExtension extends PlaceholderExpansion {
             Character character = characterManager.getCharacter(player.getUniqueId());
 
             if(params.equalsIgnoreCase("clan")){
-                return KatsuUtils.coloredHex(character.getClan());
+                return character.getClan();
+            }
+
+            if(params.equalsIgnoreCase("clan_formatted")){
+                return KatsuUtils.formatClan(character.getClan(), plugin);
             }
 
             if(params.equalsIgnoreCase("village")){
-                return KatsuUtils.formatVillage(character.getVillages().name());
+                return character.getVillages().name();
+            }
+
+            if(params.equalsIgnoreCase("village_formatted")){
+                return KatsuUtils.formatVillage(character.getVillages(), plugin);
             }
 
             if(params.equalsIgnoreCase("sex")){
@@ -52,7 +62,11 @@ public class CharacterExtension extends PlaceholderExpansion {
             if (params.equalsIgnoreCase("nick")){
                 return character.getNick();
             }
+
+            if (params.equalsIgnoreCase("age")){
+                return String.valueOf(character.getAge());
+            }
         }
-        return "&cNo Encontrado";
+        return "N/A";
     }
 }

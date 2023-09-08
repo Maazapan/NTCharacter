@@ -46,8 +46,10 @@ public class SelectVillageGUI extends InventoryCreator {
             player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1);
 
             if (actions.contains("[CLOSE]")) {
+                this.setTerminated(true);
+
                 player.closeInventory();
-                characterManager.cancelEditing(player);
+                characterManager.cancelEditing(player, false);
                 return;
             }
 
@@ -62,12 +64,12 @@ public class SelectVillageGUI extends InventoryCreator {
 
                     for (String s : config.getStringList("messages.dialogues.second")) {
                         player.sendMessage(KatsuUtils.coloredHex(s
-                                .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))
+                                .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name(), plugin))
                                 .replaceAll("%nick%", character.getNick())));
                     }
 
                     String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.select-village")
-                            .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))).split(";");
+                            .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name(), plugin))).split(";");
 
                     player.sendTitle(title[0], title[1], 10, 30, 20);
                     player.closeInventory();

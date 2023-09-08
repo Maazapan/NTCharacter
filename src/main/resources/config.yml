@@ -1,4 +1,31 @@
 config:
+  clans:
+    HYUGA: "&f&lHyuga"
+    UCHIHA: "&c&lUchiha"
+    NARA: "&8&lNara"
+    SABAKU: "&6&lSabaku"
+    SHIROGANE: "&d&lShirogane"
+    SHAKU: "#FEBC17&lShaku"
+    BEIFON: "&8&lBeifon"
+    KAZAN: "&6&lKazan"
+    BAKUHATSU: "&f&lBakuhatsu"
+    YUKI: "&f&lYuki"
+    HOZUKI: "&9&lHozuki"
+    HOSHIRAKI: "&b&lHoshiraki"
+    FUMA: "&d&lFuma"
+    TIFO: "&3&lTifo"
+    YOTSUKI: "&b&lYotsuki"
+    BURAKKUREI: "&5&lBurakkurei"
+    CHINOIKE: "&c&lChinoike"
+
+  villages:
+    AMEGAKURE: "&d&lAmegakure"
+    KONOHAGAKURE: "&a&lKonohagakure"
+    SUNAGAKURE: "&6&lSunagakure"
+    IWAGAKURE: "&8&lIwagakure"
+    KUMOGAKURE: "&b&lKumogakure"
+    KIRIGAKURE: "&b&lKirigakure"
+
   max-nick-length: 16
   nick-blacklist:
     - "admin"
@@ -7,11 +34,20 @@ config:
 
 messages:
   prefix: " &8 ▸| &e&lNTCharacter &8» "
-  args-missing: "&cTe faltan algunos argumentos en el comando /ppj <create/reset/add>!"
+  args-missing: "&cTe faltan algunos argumentos en el comando /ntc <create/reset/add/setspawn/spawn/teleport/start>!"
+  args-missing-setspawn: "&cTe faltan algunos argumentos en el comando /ntc setspawn <village> <clan>!"
+  args-missing-spawn: "&cTe faltan algunos argumentos en el comando /ntc spawn <village> <clan>!"
   already-have-character: "&cYa tienes un personaje creado!"
   no-permission: "&cNo tienes permiso para usar este comando!"
+  start-successful: "&aSe ha colocado el spawn para la creacion de personajes!"
   nick-too-long: "&cEl nombre es demasiado largo!"
   nick-blacklisted: "&cEste nombre esta en la lista negra!"
+  village-not-found: "&cNo se ha encontrado la aldea!"
+  teleport-successful: "&aTe has teletransportado a la aldea"
+  clan-not-found: "&cNo se ha encontrado el clan!"
+  no-village-found: "&cNo perteneces a ninguna aldea!"
+  spawn-not-found: "&cNo se ha encontrado el spawn!"
+  spawn-set-successful: "&aHas establecido el spawn de la aldea &e%village% &adel clan &e%clan%&a!"
   already-editing: "&cYa estas editando tu personaje!"
   cancel-editing: "&cHas cancelado la edicion de tu personaje!"
   player-not-found: "&cNo se ha encontrado al jugador!"
@@ -36,8 +72,12 @@ messages:
       - ' &8| &e&lHagoromo: &7Ahora eres parte del clan &a%clan% &7de la aldea &a%village%&7.'
       - '&7ahora necesitamos saber con que sexo te identificas'
     fourth:
+      - ' &8| &e&lHagoromo: &7Bien, ahora que sabemos que te identificas con &a%sex%'
+      - '&7y por ultimo necesito saber cual es tu edad.'
+    five:
       - ' &8| &e&lHagoromo: &7Estas listo, para empezar tu aventura'
-      - '&7te conoceremos como el gran &a%nick% &7del clan &a%clan% &7de la aldea &a%village%'
+      - '&7te conoceremos como el gran &a%nick% &7del clan &a%clan% &7de la aldea &a%village% &7con &a%age% &7años de edad.'
+
 
 
   titles:
@@ -45,8 +85,59 @@ messages:
     terminated-editing: "&e&lHaz Terminado!;&f&a&l✔ &fTu personaja esta listo!"
     select-village: "&e&lAldea;&f&a&l✔ &fSe ha seleccionado &7%village%"
     select-clan: "&e&lClan;&f&a&l✔ &fSe ha seleccionado &7%clan%"
+    select-sex: "&e&lSexo;&f&a&l✔ &fSe ha seleccionado &7%sex%"
 
 inventory:
+  select-age:
+    title: " &9» &8Selecciona una Edad"
+    size: 36
+    age-item:
+      id: CLOCK
+      display_name: "&aEdad: &e%age%"
+      lore:
+        - '&8Creacion Personaje'
+        - ''
+        - '&7Seleciona la edad de tu personaje'
+        - ''
+        - '&e▸ Click para confirmar'
+      actions:
+        - '[CONFIRM]'
+
+    items:
+      '1':
+        id: PLAYER_HEAD
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGVmMzU2YWQyYWE3YjE2NzhhZWNiODgyOTBlNWZhNWEzNDI3ZTVlNDU2ZmY0MmZiNTE1NjkwYzY3NTE3YjgifX19"
+        slot: 15
+        display_name: "&aAgrega 1 año"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Agrega un año mas a tu personaje'
+          - ''
+          - '&e▸ Click para agregar'
+        actions:
+          - '[ADD]'
+      '2':
+        id: PLAYER_HEAD
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0="
+        slot: 11
+        display_name: "&aQuita 1 año"
+        lore:
+          - '&8Creacion Personaje'
+          - ''
+          - '&7Quita un año mas a tu personaje'
+          - ''
+          - '&e▸ Click para quitar'
+        actions:
+          - '[REMOVE]'
+      '4':
+        id: PLAYER_HEAD
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ=="
+        slot: 31
+        display_name: "&aVolver al Menu"
+        actions:
+          - '[BACK]'
+
   select-sex:
     title: " &9» &8Selecciona un Sexo"
     size: 36
@@ -91,13 +182,6 @@ inventory:
           - '&e▸ Click para seleccionar'
         actions:
           - '[SEX] OTHER'
-      '4':
-        id: PLAYER_HEAD
-        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ2OWUwNmU1ZGFkZmQ4NGU1ZjNkMWMyMTA2M2YyNTUzYjJmYTk0NWVlMWQ0ZDcxNTJmZGM1NDI1YmMxMmE5In19fQ=="
-        slot: 31
-        display_name: "&aVolver al Menu"
-        actions:
-          - '[BACK]'
 
   options-clan:
     title: " &9» &8Selecciona una Opcion"

@@ -41,6 +41,10 @@ public class CharacterLoader {
                 character.setResetPoints(config.getInt("clanPoints"));
                 character.setCharacterSex(CharacterSex.valueOf(config.getString("sex")));
 
+                if(config.isSet("age")){
+                    character.setAge(config.getInt("age"));
+                }
+
                 plugin.getCharacterManager().addCharacter(uuid, character);
             }
             plugin.getLogger().info("Se han cargado los personajes correctamente!");
@@ -80,6 +84,7 @@ public class CharacterLoader {
 
                 config.set("clanPoints", character.getResetPoints());
                 config.set("sex", character.getCharacterSex().toString());
+                config.set("age", character.getAge());
 
                 config.save(file);
             }

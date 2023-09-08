@@ -7,7 +7,9 @@ import com.github.maazapan.ntcharacter.character.loader.CharacterLoader;
 import com.github.maazapan.ntcharacter.utils.KatsuUtils;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -46,6 +48,7 @@ public class CharacterManager {
      * @param player Player to start editing.
      */
     public void startEditing(Player player) {
+        FileConfiguration spawnFile = plugin.getSpawnFile();
         FileConfiguration config = plugin.getConfig();
 
         String[] nickTitle = KatsuUtils.coloredHex(config.getString("messages.titles.nick-name")).split(";");
@@ -57,6 +60,29 @@ public class CharacterManager {
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
 
         editors.put(player.getUniqueId(), player.getName());
+
+        NBTEntity nbtEntity = new NBTEntity(player);
+        Location location = player.getLocation();
+
+        String formattedLocation = location.getWorld().getName() + ";"
+                + location.getX() + ";"
+                + location.getY() + ";"
+                + location.getZ() + ";" + location.getYaw() + ";" + location.getPitch();
+
+        nbtEntity.getPersistentDataContainer().setString("character-location", formattedLocation);
+
+        if (spawnFile.isSet("start")) {
+            double x = spawnFile.getDouble("start.x");
+            double y = spawnFile.getDouble("start.y");
+            double z = spawnFile.getDouble("start.z");
+
+            float yaw = (float) spawnFile.getDouble("start.yaw");
+            float pitch = (float) spawnFile.getDouble("start.pitch");
+
+            World world = Bukkit.getWorld(spawnFile.getString("start.world"));
+
+            player.teleport(new Location(world, x, y, z, yaw, pitch));
+        }
     }
 
     /**
@@ -64,14 +90,46 @@ public class CharacterManager {
      *
      * @param player Player to cancel editing.
      */
-    public void cancelEditing(Player player) {
+    public void cancelEditing(Player player, boolean leave) {
         FileConfiguration config = plugin.getConfig();
+
+        player.resetTitle();
         player.sendTitle(" ", " ");
 
         player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.cancel-editing")));
         player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1);
 
         editors.remove(player.getUniqueId());
+
+        NBTEntity nbtEntity = new NBTEntity(player);
+        Location location;
+
+        if (nbtEntity.getPersistentDataContainer().hasTag("character-location")) {
+            String[] formattedLocation = nbtEntity.getPersistentDataContainer().getString("character-location").split(";");
+
+            double x = Double.parseDouble(formattedLocation[1]);
+            double y = Double.parseDouble(formattedLocation[2]);
+            double z = Double.parseDouble(formattedLocation[3]);
+
+            float yaw = Float.parseFloat(formattedLocation[4]);
+            float pitch = Float.parseFloat(formattedLocation[5]);
+
+            World world = Bukkit.getWorld(formattedLocation[0]);
+
+            location = new Location(world, x, y, z, yaw, pitch);
+
+            nbtEntity.getPersistentDataContainer().removeKey("character-location");
+        } else {
+            location = null;
+        }
+
+        if (location != null) {
+            if (!leave) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> player.teleport(location), 20L);
+                return;
+            }
+            player.teleport(location);
+        }
     }
 
     public void terminateEditing(Player player, Character character) {
@@ -81,11 +139,12 @@ public class CharacterManager {
 
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
-        for (String s : config.getStringList("messages.dialogues.fourth")) {
+        for (String s : config.getStringList("messages.dialogues.five")) {
             player.sendMessage(KatsuUtils.coloredHex(s
-                    .replaceAll("%clan%", KatsuUtils.formatClan(character.getClan()))
+                    .replaceAll("%clan%", KatsuUtils.formatClan(character.getClan(), plugin))
                     .replaceAll("%nick%", character.getNick())
-                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name()))));
+                    .replaceAll("%age%", String.valueOf(character.getAge()))
+                    .replaceAll("%village%", KatsuUtils.formatVillage(character.getVillages().name(), plugin))));
         }
 
         String[] title = KatsuUtils.coloredHex(config.getString("messages.titles.terminated-editing")).split(";");
@@ -98,10 +157,35 @@ public class CharacterManager {
 
         NBTEntity nbtEntity = new NBTEntity(player);
 
-        if(nbtEntity.getPersistentDataContainer().hasTag("select-clan")){
+        if (nbtEntity.getPersistentDataContainer().hasTag("select-clan")) {
             nbtEntity.getPersistentDataContainer().removeKey("select-clan");
         }
+
         this.addCharacter(player.getUniqueId(), character);
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+            FileConfiguration spawnFile = plugin.getSpawnFile();
+
+            String villageArgs = character.getVillages().toString();
+            String clanArgs = character.getClan().toUpperCase();
+
+            if (!spawnFile.contains("spawn." + villageArgs + "." + clanArgs)) {
+                player.sendMessage(KatsuUtils.coloredHex(plugin.getPrefix() + config.getString("messages.spawn-not-found")));
+                return;
+            }
+
+            double x = spawnFile.getDouble("spawn." + villageArgs + "." + clanArgs + ".x");
+            double y = spawnFile.getDouble("spawn." + villageArgs + "." + clanArgs + ".y");
+            double z = spawnFile.getDouble("spawn." + villageArgs + "." + clanArgs + ".z");
+
+            float yaw = (float) spawnFile.getDouble("spawn." + villageArgs + "." + clanArgs + ".yaw");
+            float pitch = (float) spawnFile.getDouble("spawn." + villageArgs + "." + clanArgs + ".pitch");
+
+            World world = Bukkit.getWorld(spawnFile.getString("spawn." + villageArgs + "." + clanArgs + ".world"));
+            Location location = new Location(world, x, y, z, yaw, pitch);
+
+            player.teleport(location);
+        }, 10);
     }
 
     /**

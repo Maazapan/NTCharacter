@@ -6,7 +6,7 @@
 
     <groupId>com.github.maazapan</groupId>
     <artifactId>NTCharacter</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>NTCharacter</name>
@@ -99,7 +99,7 @@
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api</artifactId>
-            <version>2.11.2</version>
+            <version>2.11.3</version>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
